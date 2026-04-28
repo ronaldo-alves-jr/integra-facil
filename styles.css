@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
+
+body {
+  font-family: "Noto Sans", sans-serif;
+  color: #4f546c;
+  background-color: #F0F0F0;
+}
+
+.card {
+  box-shadow: 0 0 10px 5px #e1e5ee;
+  border-radius: 0.2rem;
+  display: flex;
+  margin-bottom: 1.5rem;  
+  height: 300px;  
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.legenda {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.cabecalho {
+  background-color: #f8f9fa;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+  text-align: left;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.navbar-toggler-icon {
+  font-size: 30px;
+  cursor: pointer;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  color: black;
+  z-index: 1100;
+}
+
+@media (max-width: 768px) {
+  .navbar-toggler-icon {
+    top: 10px;
+    left: 10px;
+  }
+}

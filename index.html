@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integra Fácil - Imóveis</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!--MENU SIDENAV-->
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="home.html" target="_blank">Início</a>
+        <a href="index.html" target="_blank" title="Confira os imóveis disponíveis">Imóveis</a>
+        <a href="documentacao.html" target="_blank" title="Veja a documentação necessária">Documentação</a>
+    </div>
+    <span class="navbar-toggler-icon" onclick="openNav()">&#9776;</span>
+    <header class="cabecalho">
+        <div class="container">
+            <img src="images/main-logo.png" alt="Integra Fácil" class="logo">
+            <h1 class="mb-4" style="font-weight:700; margin-top: 10px; color: var(--cor-escura);">Boas-vindas ao nosso
+                site de imóveis</h1>
+        </div>
+    </header>
+    <div class="container">
+        <h2 class="mt-4 mb-3" style="font-weight:600;">Nossas opções de hoje</h2>
+        <p id="total-imoveis" class="text-muted"></p>
+        <!--FILTROS-->
+        <div class="row mb-4 p-3 border rounded bg-light">
+            <div class="col-md-12 mb-2">
+                <label><strong>Busca por bairro:</strong></label>
+                <input type="text" id="filtro-texto" class="form-control" placeholder="Ex.: Centro, Jardim Vitória...">
+            </div>
+        </div>
+        <!-- GRID -->
+        <div class="row" id="dados-imoveis"></div>
+    </div>
+    <!-- FOOTER -->
+    <footer class="text-black text-center py-4 mt-4">
+        <div class="container">
+            <p>&copy; 2024 Integra Fácil - IFSULDEMINAS - Campus Poços de Caldas</p>
+        </div>
+    </footer>
+    <!-- SCRIPT -->
+    <script>
+        let dadosImoveis = [];
+        function renderizar(dados) {
+
+            const div = document.getElementById('dados-imoveis');
+            div.innerHTML = "";
+            
+            const total = document.getElementById("total-imoveis");
+            total.textContent = dados.length === 0
+            ? "Nenhum imóvel encontrado"
+            : dados.length === 1
+            ? "1 imóvel encontrado"
+            : `${dados.length} imóveis encontrados`;
+
+            dados.forEach(imovel => {
+                const col = document.createElement('div');
+                col.classList.add('col-md-3', 'mb-4');
+                col.innerHTML = `
+                <div class="card h-100 shadow-sm">
+                    <img src="${imovel.src}" alt="${imovel.alt}" class="card-img-top">
+                    <div class="card-body text-center">
+                        <p class="card-text legenda mb-2">${imovel.alt}</p>
+                        <p class="card-text font-weight-bold text-success">
+                            ${imovel.preco && imovel.preco.trim() !== '' ? imovel.preco : 'Preço não informado'}
+                        </p>
+                    </div>
+                </div>
+            `;
+                div.appendChild(col);
+            });
+        }
+        function aplicarFiltros() {
+            const texto = document.getElementById("filtro-texto").value.toLowerCase().trim();
+            const filtrados = dadosImoveis.filter(imovel => {
+                if (!texto) return true;
+                return imovel.alt && imovel.alt.toLowerCase().includes(texto);
+            });
+            renderizar(filtrados);
+        }
+        
+        fetch('dados.json')
+            .then(response => response.json())
+            .then(data => {
+                dadosImoveis = data;
+                renderizar(dadosImoveis);
+            })
+            .catch(err => {
+                console.error('Erro ao carregar imóveis:', err);
+                document.getElementById('dados-imoveis').innerHTML = '<div class="col-12 text-center text-danger">Erro ao carregar imóveis.</div>';
+            });
+        
+        document.getElementById("filtro-texto").addEventListener("input", aplicarFiltros);
+    </script>
+    <!-- BOOTSTRAP E HOME -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="scriptHome.js"></script>
+</body>
+</html>
